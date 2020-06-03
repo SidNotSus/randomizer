@@ -5,18 +5,18 @@ win = pygame.display.set_mode((1466, 500))
 
 pygame.display.set_caption("Randomizer")
 
-#walkRigth = [pygame.image.load('right_1.png'),
-#            pygame.image.load('right_2.png'),
-#            pygame.image.load('right_3.png'),
-#            pygame.image.load('right_4.png'),
-#            pygame.image.load('right_5.png'),
-#            pygame.image.load('right_6.png'),]
-#walkLeft = [pygame.image.load('left_1.png'),
-#            pygame.image.load('left_2.png'),
-#            pygame.image.load('left_3.png'),
-#            pygame.image.load('left_4.png'),
-#            pygame.image.load('left_5.png'),
-#            pygame.image.load('left_6.png'),]
+walkRigth = [pygame.image.load('right_1.png'),
+            pygame.image.load('right_2.png'),
+            pygame.image.load('right_3.png'),
+            pygame.image.load('right_4.png'),
+            pygame.image.load('right_5.png'),
+            pygame.image.load('right_6.png'),]
+walkLeft = [pygame.image.load('left_1.png'),
+            pygame.image.load('left_2.png'),
+            pygame.image.load('left_3.png'),
+            pygame.image.load('left_4.png'),
+            pygame.image.load('left_5.png'),
+            pygame.image.load('left_6.png'),]
 
 bg = pygame.image.load('bg.jpg')
 playerStand = pygame.image.load('idle.png')
@@ -25,44 +25,48 @@ clock = pygame.time.Clock()
 
 
 x=50
-y=420
-width = 60
-height = 71
+y=380
+width = 51
+height = 120
 speed = 10
-
 
 isJump=False
 jumpCount = 10
 
 left = False
 rigth = False
-animCount = 10
+animCount = 0
 
 
 
 def drawWindow():
-        count = 0
         global animCount
         win.blit(bg, (0,0))
+        if animCount + 1 >= 30:
+            animCount = 0
 
-#        if left:
-#            win.blit(walkLeft[animCount // 5], (x,y))
-#            animCount +=1
+        if left:
+            win.blit(walkLeft[animCount // 5], (x,y))
+            animCount +=1
+        elif rigth:
+            win.blit(walkRigth[animCount // 5], (x,y))
+            animCount +=1
+        else:
+            win.blit(playerStand, (x,y))
 
-
-#       win.blit(playerStand, (x,y))
-
-        while count > 10:
-            pygame.draw.rect(win,(0,0,255),(x,y,width,height))
-            x+=20
-            count=count+1
-            if x > 150:
-                break
+        #pygame.draw.rect(win,(0,0,255),(x,y,width,height))
         pygame.display.update()
+
+#        win.blit(bg, (0,0))
+#
+#        win.blit(playerStand, (x,y))
+#
+#    #    pygame.draw.rect(win,(0,0,255),(x,y,width,height))
+#        pygame.display.update()
 
 
 ################################################################################
-######################################GAME######################################
+########################################GAME####################################
 run = True
 while run:
     clock.tick(30)
@@ -98,12 +102,21 @@ while run:
         rigth = False
         animCount = 0
 
-    if keys[pygame.K_SPACE]:
-        for i in range(20):
-                x-=speed
-                left = True
-                rigth = False
+    if not (isJump):
+        if keys[pygame.K_SPACE]:
+                isJump = True
 
+    else:
+    #    for i in range(20):
+            if jumpCount >= -10:
+                if jumpCount < 0:
+                    x+=(jumpCount ** 2) / 2
+                else:
+                    x-=(jumpCount ** 2) / 2
+                    jumpCount -= 1
+            else:
+                    isJump=False
+                    jumpCount=10
     drawWindow()
 
 ################################################################################
