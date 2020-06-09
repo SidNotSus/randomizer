@@ -7,10 +7,10 @@ win = pygame.display.set_mode((1920,1080),pygame.FULLSCREEN)
 #
 pygame.display.set_caption("Randomizer")
 #
-xStripe = 700
-yStripe = 200
-xFrame = 695
-yFrame = 195
+xStripe = 270
+yStripe = 260
+xFrame = 805
+yFrame = 485
 widthPhoto = 100
 heightPhoto = 100
 widthFrame = 110
@@ -27,6 +27,8 @@ class Student():
 #
 #
 bg = pygame.image.load('design/bg.jpg').convert()
+bgRightPart = pygame.image.load('design/bgRightPart.png')
+bgLeftPart = pygame.image.load('design/bgLeftPart.png')
 #
 clock = pygame.time.Clock()
 #
@@ -44,16 +46,21 @@ def drawWindow():
         tStripe = xStripe
         tFrame = xFrame
         for i in students_array:
-            frame = pygame.image.load('design/frame.png').convert()
+            #frame = pygame.image.load('design/frame.png').convert()
+            mainFrame = pygame.image.load('design/mainFrame.png')
             loadedPicture = pygame.image.load(i.picture_path)
             if (tStripe > 450 and tStripe < 650 and iter == 6):
                 win.blit(loadedPicture, (t,yStripe,widthPhoto+100,heightPhoto+100))
                 run = False
             else:
-                win.blit(frame,(tFrame,yFrame,widthFrame,heightFrame))
+                #win.blit(frame,(tFrame,yFrame,widthFrame,heightFrame))
                 win.blit(loadedPicture, (tStripe,yStripe,widthPhoto,heightPhoto))
+                win.blit(bgRightPart,(1660,0))
+                win.blit(bgLeftPart,(0,0))
+
+                win.blit(mainFrame,(0,0))
             tFrame = tFrame + 110
-            tStripe = tStripe + 110
+            tStripe = tStripe + 230
             iter += 1
         xStripe = xStripe - 1
         xFrame = xFrame - 1
