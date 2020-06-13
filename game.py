@@ -14,6 +14,7 @@ pygame.display.set_caption("Randomizer")
 #
 
 bg = pygame.image.load('design/bg.jpg').convert()
+bgMenu = pygame.image.load('design/bg_menu.jpg').convert()
 bgRightPart = pygame.image.load('design/bgRightPart.png')
 bgLeftPart = pygame.image.load('design/bgLeftPart.png')
 mainFrame = pygame.image.load('design/mainFrame.png')
@@ -55,15 +56,15 @@ class Menu:
         done = True
         pygame.mouse.set_visible(True)
         pygame.key.set_repeat(0,0)
-        font_menu = pygame.font.Font('fonts/Peace Sans.otf', 50)
+        font_menu = pygame.font.Font('fonts/Peace Sans.otf', 100)
         punkt = 0
         while done:
 
             mp = pygame.mouse.get_pos()
             for i in self.punkts:
-                if mp[0]>i[0] and mp[0]<i[0]+155 and p[1]>i[1] and mp[1]<i[1]+50:
+                if mp[0]>i[0] and mp[0]<i[0]+690 and mp[1]>i[1] and mp[1]<i[1]+100:
                     punkt = i[5]
-            self.render(bg, font_menu, punkt)
+            self.render(bgMenu, font_menu, punkt)
 
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
@@ -89,7 +90,7 @@ class Menu:
                         sys.exit()
 
         #    window.blit(info_string, (0, 0))
-            win.blit(bg, (0,0))
+            win.blit(bgMenu, (0,0))
             pygame.display.update()
 
 ####################################################################################################
@@ -98,8 +99,8 @@ class Menu:
 ####################################################################################################
 
 ' создаем меню '
-punkts = [(120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0),
-          (130, 210, u'Quit', (250, 250, 30), (250, 30, 250), 1)]
+punkts = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0),
+          (600, 640, u'Присутствие', (255, 255, 255), (0, 0, 0), 1)]
 game = Menu(punkts)
 game.menu()
 
