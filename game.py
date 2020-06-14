@@ -18,7 +18,9 @@ bgMenu = pygame.image.load('design/bg_menu.jpg').convert()
 bgRightPart = pygame.image.load('design/bgRightPart.png')
 bgLeftPart = pygame.image.load('design/bgLeftPart.png')
 mainFrame = pygame.image.load('design/mainFrame.png')
-loadedPicture = pygame.image.load('1.jpg')
+loadedPicture = []
+for i in range(6):
+    loadedPicture.append ( pygame.image.load('students/'+ str(i+1) +'.jpg').convert())
 
 #
 
@@ -31,6 +33,9 @@ widthFrame = 110
 heightFrame = 110
 students_array = []
 
+
+#######Служебные изменяемые переменные
+speed = 50
 ############################################################################################
 ############################################################################################
 ############################################################################################
@@ -111,27 +116,29 @@ clock = pygame.time.Clock()
 #
 def drawWindow():
     global students_array
+    global loadedPicture
     global xStripe
     global iter
     global run
+    global speed
+
     win.blit(bg, (0,0))
 
     tStripe = xStripe
 
-    for i in students_array:
-        if (tStripe > 450 and tStripe < 650 and iter == 6):
-            win.blit(loadedPicture, (t,yStripe,widthPhoto+100,heightPhoto+100))
-            run = False
-        else:
-            win.blit(loadedPicture, (tStripe,yStripe,widthPhoto,heightPhoto))
-        tStripe = tStripe + 230
-        iter += 1
+    for i in range(len(students_array)):
+            win.blit(loadedPicture[i+1], (tStripe,yStripe,widthPhoto,heightPhoto))
+    tStripe = tStripe + 230
+
 
     win.blit(bgLeftPart,(0,0))
     win.blit(bgRightPart,(0,0))
     win.blit(mainFrame,(0,0))
 
-    xStripe = xStripe - 1
+
+    if (speed != 0):
+        speed -= 0.5
+    xStripe = xStripe - speed
     pygame.display.update()
 
 
@@ -148,9 +155,13 @@ while run:
     clock.tick(60)
     # pygame.time.delay(1+iter)
     # print("ALL:", pygame.time.get_ticks())
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+
     drawWindow()
     print("DRAW: ", clock.get_fps())
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            run = False
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_ESCAPE:
+                    sys.exit()
 pygame.quit()
