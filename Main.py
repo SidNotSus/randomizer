@@ -18,7 +18,9 @@ bgMenu = pygame.image.load('design/bg_menu.jpg').convert()
 bgRightPart = pygame.image.load('design/bgRightPart.png')
 bgLeftPart = pygame.image.load('design/bgLeftPart.png')
 mainFrame = pygame.image.load('design/mainFrame.png')
-loadedPicture = pygame.image.load('1.jpg')
+#for i in range(6):
+#i = 0
+#loadedPicture = pygame.image.load('students/' + str(i+1) + '.jpg')
 
 #
 
@@ -33,15 +35,16 @@ students_array = []
 
 ############################################################################################
 ############################################################################################
+speed = 50
 ############################################################################################
-############################################################################################
+############################################################################################'students' +
 
 class Student():
     def __init__(self, name, id):
         self.picture = None
         self.name = name
         self.id = id
-        self.picture_path = str(id)+'.jpg'
+        self.picture_path ='students/'+str(id)+'.jpg'
 
 class Menu:
     def __init__(self, punkts = [120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0]):
@@ -110,35 +113,36 @@ game.menu()
 clock = pygame.time.Clock()
 #
 #
+for i in students_array:
+    loadedPicture = pygame.image.load(i.picture_path)
+
 def drawWindow():
     global students_array
     global xStripe
-    global iter
     global run
+    global speed
+
     win.blit(bg, (0,0))
 
     tStripe = xStripe
-
+#'students' +
     for i in students_array:
-        if (tStripe > 450 and tStripe < 650 and iter == 6):
-            win.blit(loadedPicture, (t,yStripe,widthPhoto+100,heightPhoto+100))
-            run = False
-        else:
-            win.blit(loadedPicture, (tStripe,yStripe,widthPhoto,heightPhoto))
+        win.blit(loadedPicture, (tStripe,yStripe,widthPhoto,heightPhoto))
         tStripe = tStripe + 230
-        iter += 1
 
     win.blit(bgLeftPart,(0,0))
     win.blit(bgRightPart,(0,0))
     win.blit(mainFrame,(0,0))
 
-    xStripe = xStripe - 1
+    if (speed != 0):
+        speed -=0.5
+    xStripe = xStripe - speed
     pygame.display.update()
 
 
 
 run = True
-for i in range(1,70):
+for i in range(1,20):
     students_array.append(Student("Vanya", 1+i%4))
 random.shuffle(students_array)
 
