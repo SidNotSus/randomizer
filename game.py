@@ -127,7 +127,8 @@ def drawWindow():
     tStripe = xStripe
 
     for i in range(len(students_array)):
-            win.blit(loadedPicture[i+1], (tStripe,yStripe,widthPhoto,heightPhoto))
+        print(students_array[i].id)
+        win.blit(loadedPicture[students_array[i].id], (tStripe,yStripe,widthPhoto,heightPhoto))
     tStripe = tStripe + 230
 
 
