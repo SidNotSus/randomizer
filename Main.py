@@ -15,12 +15,12 @@ pygame.display.set_caption("Randomizer")
 
 bg = pygame.image.load('design/bg.jpg').convert()
 bgMenu = pygame.image.load('design/bg_menu.jpg').convert()
-bgRightPart = pygame.image.load('design/bgRightPart.png')
-bgLeftPart = pygame.image.load('design/bgLeftPart.png')
-mainFrame = pygame.image.load('design/mainFrame.png')
-loadedPicture = []
-for i in range(6):
-    loadedPicture.append ( pygame.image.load('students/'+ str(i+1) +'.jpg').convert())
+bgRightPart = pygame.image.load('design/bgRightPart.png')#.convert()
+bgLeftPart = pygame.image.load('design/bgLeftPart.png')#.convert()
+mainFrame = pygame.image.load('design/mainFrame.png')#.convert()
+#for i in range(6):
+i = 0
+loadedPicture = pygame.image.load('students/' + str(i+1) + '.jpg').convert()
 
 #
 
@@ -33,20 +33,18 @@ widthFrame = 110
 heightFrame = 110
 students_array = []
 
-
-#######Служебные изменяемые переменные
+############################################################################################
+############################################################################################
 speed = 50
 ############################################################################################
-############################################################################################
-############################################################################################
-############################################################################################
+############################################################################################'students' +
 
 class Student():
     def __init__(self, name, id):
         self.picture = None
         self.name = name
         self.id = id
-        self.picture_path = str(id)+'.jpg'
+        self.picture_path ='students/'+str(id)+'.jpg'
 
 class Menu:
     def __init__(self, punkts = [120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0]):
@@ -100,6 +98,7 @@ class Menu:
 
 ####################################################################################################
 ####################################################################################################
+#
 ####################################################################################################
 ####################################################################################################
 
@@ -116,36 +115,34 @@ clock = pygame.time.Clock()
 #
 def drawWindow():
     global students_array
-    global loadedPicture
     global xStripe
-    global iter
     global run
     global speed
 
     win.blit(bg, (0,0))
 
     tStripe = xStripe
+#'students' +
 
-    for i in range(len(students_array)):
-        print(students_array[i].id)
-        win.blit(loadedPicture[students_array[i].id], (tStripe,yStripe,widthPhoto,heightPhoto))
-    tStripe = tStripe + 230
 
+    for i in students_array:
+        loadedPicture = pygame.image.load(i.picture_path).convert()
+        win.blit(loadedPicture, (tStripe,yStripe,widthPhoto,heightPhoto))
+        tStripe = tStripe + 230
 
     win.blit(bgLeftPart,(0,0))
     win.blit(bgRightPart,(0,0))
     win.blit(mainFrame,(0,0))
 
-
     if (speed != 0):
-        speed -= 0.5
+        speed -=0.5
     xStripe = xStripe - speed
     pygame.display.update()
 
 
 
 run = True
-for i in range(1,70):
+for i in range(1,20):
     students_array.append(Student("Vanya", 1+i%4))
 random.shuffle(students_array)
 
@@ -156,13 +153,9 @@ while run:
     clock.tick(60)
     # pygame.time.delay(1+iter)
     # print("ALL:", pygame.time.get_ticks())
-
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
     drawWindow()
     print("DRAW: ", clock.get_fps())
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-            run = False
-            if e.type == pygame.KEYDOWN:
-                if e.key == pygame.K_ESCAPE:
-                    sys.exit()
 pygame.quit()
