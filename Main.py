@@ -15,12 +15,12 @@ pygame.display.set_caption("Randomizer")
 
 bg = pygame.image.load('design/bg.jpg').convert()
 bgMenu = pygame.image.load('design/bg_menu.jpg').convert()
-bgRightPart = pygame.image.load('design/bgRightPart.png')
-bgLeftPart = pygame.image.load('design/bgLeftPart.png')
-mainFrame = pygame.image.load('design/mainFrame.png')
+bgRightPart = pygame.image.load('design/bgRightPart.png')#.convert()
+bgLeftPart = pygame.image.load('design/bgLeftPart.png')#.convert()
+mainFrame = pygame.image.load('design/mainFrame.png')#.convert()
 #for i in range(6):
-#i = 0
-#loadedPicture = pygame.image.load('students/' + str(i+1) + '.jpg')
+i = 0
+loadedPicture = pygame.image.load('students/' + str(i+1) + '.jpg').convert()
 
 #
 
@@ -113,9 +113,6 @@ game.menu()
 clock = pygame.time.Clock()
 #
 #
-for i in students_array:
-    loadedPicture = pygame.image.load(i.picture_path)
-
 def drawWindow():
     global students_array
     global xStripe
@@ -126,7 +123,10 @@ def drawWindow():
 
     tStripe = xStripe
 #'students' +
+
+
     for i in students_array:
+        loadedPicture = pygame.image.load(i.picture_path).convert()
         win.blit(loadedPicture, (tStripe,yStripe,widthPhoto,heightPhoto))
         tStripe = tStripe + 230
 
