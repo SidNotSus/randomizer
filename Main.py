@@ -90,7 +90,7 @@ class Menu:
                     if punkt == 0:
                         done = False
                     if punkt == 1:
-                        sys.exit()
+                        done = False
 
         #    window.blit(info_string, (0, 0))
             win.blit(bgMenu, (0,0))
