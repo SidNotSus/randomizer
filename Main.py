@@ -46,7 +46,21 @@ class Student():
         self.id = id
         self.picture_path ='students/'+str(id)+'.jpg'
 
-class Menu:
+class Varification():
+    def render(self, screen, font, num_punkt):
+        for i in self.punkts:
+            screen.blit(font.render((680, 470, u'Смирнов Смирный Смиронов', (255, 255, 255), (0, 0, 0), 0))
+    def menu(self):
+        done = True
+        pygame.mouse.set_visible(True)
+        pygame.key.set_repeat(0,0)
+        font_menu = pygame.font.Font('fonts/Peace Sans.otf', 100)
+        punkt = 0
+        
+
+vari = Varification()
+
+class Menu():
     def __init__(self, punkts = [120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0]):
         self.punkts = punkts
     def render(self, screen, font, num_punkt):
@@ -90,7 +104,7 @@ class Menu:
                     if punkt == 0:
                         done = False
                     if punkt == 1:
-                        done = False
+                        vari.render()
 
         #    window.blit(info_string, (0, 0))
             win.blit(bgMenu, (0,0))
