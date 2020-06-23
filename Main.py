@@ -47,18 +47,57 @@ class Student():
         self.picture_path ='students/'+str(id)+'.jpg'
 
 class Varification():
+    def __init__(self, switchers = [120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0]):
+        self.switchers = switchers
     def render(self, screen, font, num_punkt):
-        for i in self.punkts:
-            screen.blit(font.render((680, 470, u'Смирнов Смирный Смиронов', (255, 255, 255), (0, 0, 0), 0))
+        for i in self.switchers:
+            if num_punkt == i[5]:
+                screen.blit(font.render(i[2], 1, i[4]), (i[0], i[1]-30))
+            #else:
+                #screen.blit(font.render(i[2], 1, i[3]), (i[0], i[1]-30))
     def menu(self):
         done = True
         pygame.mouse.set_visible(True)
         pygame.key.set_repeat(0,0)
         font_menu = pygame.font.Font('fonts/Peace Sans.otf', 100)
         punkt = 0
-        
+        while done:
 
-vari = Varification()
+            mp = pygame.mouse.get_pos()
+            for i in self.switchers:
+                if mp[0]>i[0] and mp[0]<i[0]+690 and mp[1]>i[1] and mp[1]<i[1]+100:
+                    punkt = i[5]
+            self.render(bgMenu, font_menu, punkt)
+
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    sys.exit()
+                if e.type == pygame.KEYDOWN:
+                    if e.key == pygame.K_RETURN:
+                        if punkt == 0:
+                            done = False
+                        if punkt == 1:
+                            sys.exit()
+                    if e.key == pygame.K_ESCAPE:
+                        sys.exit()
+                    if e.key == pygame.K_UP:
+                        if punkt > 0:
+                            punkt -= 1
+                    if e.key == pygame.K_DOWN:
+                        if punkt < len(self.switchers)-1:
+                            punkt += 1
+                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                    if punkt == 0:
+                        done = False
+                    if punkt == 1:
+                        sys.exit()
+
+        #    window.blit(info_string, (0, 0))
+            win.blit(bgMenu, (0,0))
+            pygame.display.update()
+
+
+
 
 class Menu():
     def __init__(self, punkts = [120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0]):
@@ -104,7 +143,7 @@ class Menu():
                     if punkt == 0:
                         done = False
                     if punkt == 1:
-                        vari.render()
+                        vari.render(bgMenu, font_menu, punkt)
 
         #    window.blit(info_string, (0, 0))
             win.blit(bgMenu, (0,0))
@@ -119,7 +158,10 @@ class Menu():
 ' создаем меню '
 punkts = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0),
           (600, 640, u'Присутствие', (255, 255, 255), (0, 0, 0), 1)]
+switchers = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0),
+          (600, 640, u'Присутствие', (255, 255, 255), (0, 0, 0), 1)]
 game = Menu(punkts)
+vari = Varification(switchers)
 game.menu()
 
 
@@ -148,6 +190,7 @@ def drawWindow():
     win.blit(bgRightPart,(0,0))
     win.blit(mainFrame,(0,0))
 
+
     if (speed != 0):
         speed -=0.5
     xStripe = xStripe - speed
@@ -170,6 +213,6 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    drawWindow()
+    animation()
     print("DRAW: ", clock.get_fps())
 pygame.quit()
