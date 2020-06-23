@@ -44,7 +44,7 @@ class Student():
         self.picture = None
         self.name = name
         self.id = id
-        self.picture_path ='students/'+str(id)+'.jpg'
+        self.picture_path =f'students/{str(id)}.jpg'
 
 class Varification():
     def __init__(self, switchers = [120, 140, u'Game', (250, 250, 30), (250, 30, 250), 0]):
@@ -190,7 +190,6 @@ def drawWindow():
     win.blit(bgRightPart,(0,0))
     win.blit(mainFrame,(0,0))
 
-
     if (speed != 0):
         speed -=0.5
     xStripe = xStripe - speed
@@ -207,12 +206,12 @@ random.shuffle(students_array)
 iter = 0
 while run:
     # st = clock.get_time()
-    clock.tick(60)
+    clock.tick(-1)
     # pygame.time.delay(1+iter)
     # print("ALL:", pygame.time.get_ticks())
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    animation()
+    drawWindow()
     print("DRAW: ", clock.get_fps())
 pygame.quit()
