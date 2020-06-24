@@ -5,7 +5,7 @@ import time
 #
 
 pygame.init()
-win = pygame.display.set_mode((1920,1080),pygame.FULLSCREEN)
+win = pygame.display.set_mode((1920,1080),pygame.RESIZABLE)
 
 #
 
@@ -130,7 +130,7 @@ class Menu():
                         if punkt == 0:
                             done = False
                         if punkt == 1:
-                            sys.exit()
+                            vari.menu()
                     if e.key == pygame.K_ESCAPE:
                         sys.exit()
                     if e.key == pygame.K_UP:
@@ -143,7 +143,7 @@ class Menu():
                     if punkt == 0:
                         done = False
                     if punkt == 1:
-                        vari.render(bgMenu, font_menu, punkt)
+                        vari.menu()
 
         #    window.blit(info_string, (0, 0))
             win.blit(bgMenu, (0,0))
@@ -158,10 +158,10 @@ class Menu():
 ' создаем меню '
 punkts = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0),
           (600, 640, u'Присутствие', (255, 255, 255), (0, 0, 0), 1)]
-switchers = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0),
-          (600, 640, u'Присутствие', (255, 255, 255), (0, 0, 0), 1)]
-game = Menu(punkts)
+switchers = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0)]
 vari = Varification(switchers)
+game = Menu(punkts)
+
 game.menu()
 
 
