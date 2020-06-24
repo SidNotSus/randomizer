@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 import time
+import openpyxl
 #
 
 pygame.init()
@@ -32,6 +33,7 @@ heightPhoto = 100
 widthFrame = 110
 heightFrame = 110
 students_array = []
+ifEnterWasPressed = False
 
 ############################################################################################
 ############################################################################################
@@ -174,6 +176,7 @@ def drawWindow():
     global xStripe
     global run
     global speed
+    global ifEnterWasPressed
 
     win.blit(bg, (0,0))
 
@@ -199,19 +202,20 @@ def drawWindow():
 
 run = True
 for i in range(1,20):
-    students_array.append(Student("Vanya", 1+i%4))
+    students_array.append(Student("Vanya", 1+i%6))
 random.shuffle(students_array)
 
 
 iter = 0
+#for event in pygame.event.get():
+
 while run:
     # st = clock.get_time()
-    clock.tick(-1)
+    clock.tick(60)
     # pygame.time.delay(1+iter)
     # print("ALL:", pygame.time.get_ticks())
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+    if event.type == pygame.QUIT:
+        run = False
     drawWindow()
     print("DRAW: ", clock.get_fps())
 pygame.quit()
