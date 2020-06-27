@@ -7,37 +7,34 @@ import openpyxl
 
 pygame.init()
 win = pygame.display.set_mode((1920,1080),pygame.RESIZABLE)
-
 #
-
 pygame.display.set_caption("Randomizer")
-
 #
-
 bg = pygame.image.load('design/bg.jpg').convert()
 bgMenu = pygame.image.load('design/bg_menu.jpg').convert()
 bgRightPart = pygame.image.load('design/bgRightPart.png')#.convert()
 bgLeftPart = pygame.image.load('design/bgLeftPart.png')#.convert()
 mainFrame = pygame.image.load('design/mainFrame.png')#.convert()
-#for i in range(6):
 i = 0
 loadedPicture = pygame.image.load('students/' + str(i+1) + '.jpg').convert()
 
 #
-
-xStripe = 270
+beginxStripe = 270
+xStripe = beginxStripe
 yStripe = 260
 yFrame = 485
 widthPhoto = 100
 heightPhoto = 100
 widthFrame = 110
 heightFrame = 110
+begin_speed = 50
 students_array = []
-ifEnterWasPressed = False
+
+run = False
 
 ############################################################################################
 ############################################################################################
-speed = 50
+speed = begin_speed
 ############################################################################################
 ############################################################################################'students' +
 
@@ -145,11 +142,12 @@ class Menu():
                     if punkt == 0:
                         done = False
                     if punkt == 1:
-                        vari.menu()
-
+                        pygame.quit()
         #    window.blit(info_string, (0, 0))
             win.blit(bgMenu, (0,0))
             pygame.display.update()
+        setup()
+        loop()
 
 ####################################################################################################
 ####################################################################################################
@@ -159,16 +157,13 @@ class Menu():
 
 ' создаем меню '
 punkts = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0),
-          (600, 640, u'Присутствие', (255, 255, 255), (0, 0, 0), 1)]
+          (680, 640, u'Выход', (255, 255, 255), (0, 0, 0), 1)]
 switchers = [(680, 470, u'Выбрать', (255, 255, 255), (0, 0, 0), 0)]
-vari = Varification(switchers)
-game = Menu(punkts)
 
-game.menu()
 
 
 #
-clock = pygame.time.Clock()
+
 #
 #
 def drawWindow():
@@ -176,12 +171,11 @@ def drawWindow():
     global xStripe
     global run
     global speed
-    global ifEnterWasPressed
 
     win.blit(bg, (0,0))
 
     tStripe = xStripe
-#'students' +
+
 
 
     for i in students_array:
@@ -193,29 +187,66 @@ def drawWindow():
     win.blit(bgRightPart,(0,0))
     win.blit(mainFrame,(0,0))
 
-    if (speed != 0):
+    if speed != 0:
         speed -=0.5
+    else:
+        print("ДА, я обнулился!")
+        run = False
     xStripe = xStripe - speed
+
     pygame.display.update()
 
 
+def setup():
+    for i in range(1, 20):
+        students_array.append(Student("Vanya", 1+i%7))
+    random.shuffle(students_array)
+def random_student():
+    global students_array
+    while 1:
+        if (student := students_array[random.randint(0,18)]) != students_array[13]:
+            return student
 
-run = True
-for i in range(1,20):
-    students_array.append(Student("Vanya", 1+i%6))
-random.shuffle(students_array)
-
-
-iter = 0
-#for event in pygame.event.get():
-
-while run:
-    # st = clock.get_time()
-    clock.tick(60)
-    # pygame.time.delay(1+iter)
-    # print("ALL:", pygame.time.get_ticks())
-    if event.type == pygame.QUIT:
-        run = False
+def loop():
+    global run
+    global speed
+    global begin_speed
+    global beginxStripe
+    global xStripe
+    global students_array
     drawWindow()
-    print("DRAW: ", clock.get_fps())
+    l = True
+    while l:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    run = True
+                elif event.key == pygame.K_ESCAPE:
+                    l = False
+                    game.menu()
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+
+        while run:
+            clock.tick(-1)
+            drawWindow()
+
+        if speed == 0:
+            print((xStripe - beginxStripe)/230)
+            speed = begin_speed
+            xStripe = beginxStripe
+            for i, student in enumerate(students_array):
+                if student.id == students_array[13].id and i != 13:
+                    students_array[i] = random_student()
+            students_array[13] = random_student()
+                    # del students_array[students_array.index(student)]
+            # students_array[17].id
+            random.shuffle(students_array)
+
+clock = pygame.time.Clock()
+
+vari = Varification(switchers)
+game = Menu(punkts)
+
+game.menu()
 pygame.quit()
